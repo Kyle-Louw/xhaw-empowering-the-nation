@@ -1,5 +1,5 @@
 # Empowering the Nation
-<img width="415" height="329" alt="etn logo" src="https://github.com/user-attachments/assets/02fa8927-d197-4910-b2d5-f2d4234e8f30" />
+<img width="415" height="329" alt="etn logo" src="https://github.com/user-attachments/assets/814d6e37-adc3-4091-843d-fc1e7b84e5b0" />
 
 
 
