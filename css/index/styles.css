@@ -609,3 +609,70 @@ footer {
         font-size: 0.6rem;
     }
 }
+
+/* ============================================
+   INLINE STYLES EXTRACTED TO CSS
+============================================ */
+
+/* Section padding styles */
+.section-six-month {
+    padding-top: 70px;
+}
+
+.section-six-week {
+    padding-top: 20px;
+}
+
+.section-header {
+    text-align: center;
+}
+
+/* CTA section text styling */
+.cta-description {
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Footer tagline styling */
+.ubuntu-tagline {
+    margin-top: 12px;
+}
+
+.heart-icon {
+    color: var(--terracotta);
+}
+
+/* Hero image background */
+#hero-bg {
+    background-image: url('../../images/index/hero-image.jpg');
+}
+
+/* Course card backgrounds */
+#course-firstaid {
+    background-image: url('../../images/index/firstaid.jpg');
+}
+
+#course-sewing {
+    background-image: url('../../images/index/sewing.jpg');
+}
+
+#course-landscaping {
+    background-image: url('../../images/index/landscaping.jpg');
+}
+
+#course-lifeskills {
+    background-image: url('../../images/index/lifeskills.jpg');
+}
+
+#course-childminding {
+    background-image: url('../../images/index/childminding.jpg');
+}
+
+#course-cooking {
+    background-image: url('../../images/index/cooking.jpg');
+}
+
+#course-garden {
+    background-image: url('../../images/index/garden.jpg');
+}
