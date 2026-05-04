@@ -1,19 +1,434 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Empowering the Nation | Calculate Fees</title>
-    <meta name="description" content="Estimate course costs for six-month learnerships and six-week short courses with our fee calculator.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Calculate Fees | Empowering the Nation</title>
+    
+    <meta name="description" content="Calculate course fees with discounts. Select courses and get a quote with VAT included.">
+    
+    <!-- google fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- font awesome icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="css/calculate-fees/styles.css">
+    
+    <style>
+        /* reset margins and padding */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* body with soft cream background */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #FFF8E7;
+            color: #333333;
+            line-height: 1.5;
+        }
+
+        /* brand colours */
+        :root {
+            --terracotta: #E2725B;
+            --terracotta-dark: #C95C4A;
+            --forest: #228B22;
+            --forest-dark: #1A6B1A;
+            --golden: #DAA520;
+            --cream: #FFF8E7;
+            --charcoal: #333333;
+            --white: #FFFFFF;
+            --error-red: #DC3545;
+            --success-green: #28A745;
+            --shadow-sm: 0 4px 12px rgba(0,0,0,0.05);
+            --shadow-md: 0 8px 28px rgba(0,0,0,0.12);
+        }
+
+        /* centers content on big screens */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* header same as homepage */
+        header {
+            background: var(--cream);
+            border-bottom: 3px solid var(--terracotta);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            background-color: rgba(255, 248, 231, 0.98);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 24px;
+            max-width: 1400px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-img {
+            height: 70px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .logo-text h1 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--terracotta);
+        }
+
+        .logo-text p {
+            font-size: 0.7rem;
+            color: var(--forest);
+            font-weight: 600;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            font-weight: 600;
+            color: var(--charcoal);
+            transition: all 0.3s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--forest);
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            display: block;
+            width: 100%;
+            height: 3px;
+            background: var(--forest);
+            margin-top: 8px;
+            border-radius: 2px;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            font-size: 28px;
+            color: var(--terracotta);
+            cursor: pointer;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: var(--charcoal);
+            font-weight: 500;
+            margin: 24px 0 16px;
+        }
+
+        .back-button:hover {
+            color: var(--terracotta);
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            color: var(--terracotta);
+            font-weight: 800;
+        }
+
+        .page-header h1:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--golden), var(--terracotta));
+            margin: 16px auto 0;
+            border-radius: 4px;
+        }
+
+        /* main form card */
+        .form-card {
+            background: var(--white);
+            border-radius: 32px;
+            padding: 40px;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 32px;
+        }
+
+        /* form input groups */
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--charcoal);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 18px;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            border: 2px solid var(--terracotta);
+            border-radius: 16px;
+            background: var(--cream);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--golden);
+        }
+
+        /* error styling */
+        .form-group input.error {
+            border-color: var(--error-red);
+        }
+
+        .error-message {
+            color: var(--error-red);
+            font-size: 0.75rem;
+            margin-top: 6px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        /* two column layout for name and phone */
+        .row-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        /* courses section */
+        .courses-section {
+            margin: 32px 0;
+        }
+
+        .courses-section h3 {
+            font-size: 1.5rem;
+            color: var(--forest);
+            margin-bottom: 20px;
+        }
+
+        /* grid for checkboxes */
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 12px;
+        }
+
+        /* each checkbox row */
+        .course-checkbox {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            background: var(--cream);
+            border-radius: 14px;
+            border: 1px solid rgba(226,114,91,0.3);
+        }
+
+        .course-checkbox input {
+            width: 20px;
+            height: 20px;
+            margin-right: 14px;
+            cursor: pointer;
+            accent-color: var(--forest);
+        }
+
+        .course-checkbox label {
+            flex: 1;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .course-fee {
+            font-weight: 700;
+            color: var(--terracotta);
+        }
+
+        /* calculate button */
+        .btn-calculate {
+            width: 100%;
+            padding: 16px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            background: var(--terracotta);
+            color: var(--white);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            margin: 24px 0;
+            transition: all 0.3s;
+        }
+
+        .btn-calculate:hover {
+            background: var(--terracotta-dark);
+            transform: translateY(-2px);
+        }
+
+        /* submit button */
+        .btn-submit {
+            width: 100%;
+            padding: 16px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            background: var(--forest);
+            color: var(--white);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-submit:hover {
+            background: var(--forest-dark);
+            transform: translateY(-2px);
+        }
+
+        /* results card */
+        .results-card {
+            background: linear-gradient(135deg, var(--cream), #FFF0E0);
+            border-radius: 24px;
+            padding: 24px;
+            margin-top: 24px;
+            border-left: 5px solid var(--golden);
+            display: none;
+        }
+
+        .results-card.show {
+            display: block;
+        }
+
+        .results-card h3 {
+            color: var(--terracotta);
+            margin-bottom: 16px;
+        }
+
+        /* calculation breakdown rows */
+        .calc-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .calc-row.total {
+            border-bottom: none;
+            margin-top: 12px;
+            padding-top: 14px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: var(--forest);
+            border-top: 2px solid var(--golden);
+        }
+
+        /* success message */
+        .success-message {
+            background: var(--success-green);
+            color: var(--white);
+            padding: 14px;
+            border-radius: 14px;
+            text-align: center;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        /* footer */
+        footer {
+            background: var(--charcoal);
+            color: #ccc;
+            padding: 50px 0 25px;
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+
+        .footer-col h4 {
+            color: var(--golden);
+            margin-bottom: 18px;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 35px;
+            border-top: 1px solid #444;
+            margin-top: 35px;
+        }
+
+        /* responsive for phones */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                background: var(--cream);
+                padding: 20px;
+            }
+            .nav-links.show {
+                display: flex;
+            }
+            .mobile-menu-btn {
+                display: block;
+            }
+            .page-header h1 {
+                font-size: 2rem;
+            }
+            .row-2col {
+                grid-template-columns: 1fr;
+            }
+            .form-card {
+                padding: 24px;
+            }
+            .logo-img {
+                height: 50px;
+            }
+        }
+    </style>
 </head>
 <body>
+
 <header>
     <div class="nav-container">
         <a href="index.html" class="logo">
-            <img src="images/index/etn logo.png" alt="Empowering the Nation Logo" class="logo-img">
+            <img src="etn logo.png" alt="Logo" class="logo-img">
             <div class="logo-text">
                 <h1>Empowering the Nation</h1>
                 <p>I AM BECAUSE WE ARE</p>
@@ -24,46 +439,374 @@
         </div>
         <ul class="nav-links" id="navLinks">
             <li><a href="index.html">Home</a></li>
-            <li><a href="six-month-courses.html">Six-Month</a></li>
-            <li><a href="six-week-courses.html">Six-Week</a></li>
+            <li><a href="index.html#six-month">Six-Month</a></li>
+            <li><a href="index.html#six-week">Six-Week</a></li>
             <li><a href="calculate-fees.html" class="active">Calculate Fees</a></li>
             <li><a href="contact.html">Contact</a></li>
         </ul>
     </div>
 </header>
-<main>
-    <section class="hero" style="padding: 80px 0;">
-        <div class="container">
-            <h1>Calculate Your Course Fees</h1>
-            <p>Choose your programme and get an estimate for tuition and training costs.</p>
-            <div>
-                <p>Coming soon: a simple fee calculator for six-month and six-week programmes.</p>
+
+<main class="container">
+    <!-- back button to go home -->
+    <a href="index.html" class="back-button">
+        <i class="fas fa-arrow-left"></i> Back to Home
+    </a>
+
+    <!-- page title -->
+    <div class="page-header">
+        <h1>Request a Quote</h1>
+        <p>Select your courses and get an instant price breakdown with discounts and VAT</p>
+    </div>
+
+    <!-- main form -->
+    <div class="form-card">
+        <form id="quoteForm">
+            <!-- contact details - two columns -->
+            <div class="row-2col">
+                <div class="form-group">
+                    <label><i class="fas fa-user"></i> Full Name *</label>
+                    <input type="text" id="fullName" placeholder="Enter your full name">
+                    <div class="error-message" id="nameError">Please enter your full name</div>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-phone"></i> Phone Number *</label>
+                    <input type="tel" id="phone" placeholder="071 234 5678">
+                    <div class="error-message" id="phoneError">Please enter a valid SA phone number (10 digits starting with 0)</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label><i class="fas fa-envelope"></i> Email Address *</label>
+                <input type="email" id="email" placeholder="you@example.com">
+                <div class="error-message" id="emailError">Please enter a valid email address</div>
+            </div>
+
+            <!-- courses selection -->
+            <div class="courses-section">
+                <h3><i class="fas fa-graduation-cap"></i> Select Your Courses</h3>
+                <div class="courses-grid">
+                    <!-- six month courses R1500 each -->
+                    <div class="course-checkbox">
+                        <input type="checkbox" id="courseFirstAid" value="First Aid" data-fee="1500">
+                        <label for="courseFirstAid">First Aid</label>
+                        <span class="course-fee">R1,500</span>
+                    </div>
+                    <div class="course-checkbox">
+                        <input type="checkbox" id="courseSewing" value="Sewing" data-fee="1500">
+                        <label for="courseSewing">Sewing</label>
+                        <span class="course-fee">R1,500</span>
+                    </div>
+                    <div class="course-checkbox">
+                        <input type="checkbox" id="courseLandscaping" value="Landscaping" data-fee="1500">
+                        <label for="courseLandscaping">Landscaping</label>
+                        <span class="course-fee">R1,500</span>
+                    </div>
+                    <div class="course-checkbox">
+                        <input type="checkbox" id="courseLifeSkills" value="Life Skills" data-fee="1500">
+                        <label for="courseLifeSkills">Life Skills</label>
+                        <span class="course-fee">R1,500</span>
+                    </div>
+                    <!-- six week courses R750 each -->
+                    <div class="course-checkbox">
+                        <input type="checkbox" id="courseChildMinding" value="Child Minding" data-fee="750">
+                        <label for="courseChildMinding">Child Minding</label>
+                        <span class="course-fee">R750</span>
+                    </div>
+                    <div class="course-checkbox">
+                        <input type="checkbox" id="courseCooking" value="Cooking" data-fee="750">
+                        <label for="courseCooking">Cooking</label>
+                        <span class="course-fee">R750</span>
+                    </div>
+                    <div class="course-checkbox">
+                        <input type="checkbox" id="courseGarden" value="Garden Maintenance" data-fee="750">
+                        <label for="courseGarden">Garden Maintenance</label>
+                        <span class="course-fee">R750</span>
+                    </div>
+                </div>
+                <div class="error-message" id="courseError">Please select at least one course</div>
+            </div>
+
+            <!-- calculate button -->
+            <button type="button" class="btn-calculate" id="calculateBtn">
+                <i class="fas fa-calculator"></i> Calculate Total Fees
+            </button>
+
+            <!-- results area -->
+            <div id="results" class="results-card">
+                <h3><i class="fas fa-receipt"></i> Fee Breakdown</h3>
+                <div id="calculationDetails"></div>
+            </div>
+
+            <!-- submit button -->
+            <button type="submit" class="btn-submit">
+                <i class="fas fa-paper-plane"></i> Submit Request
+            </button>
+
+            <!-- success message -->
+            <div id="successMsg" class="success-message">
+                <i class="fas fa-check-circle"></i> Thank you! A consultant will contact you within 24 hours.
+            </div>
+        </form>
+    </div>
+</main>
+
+<footer>
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-col">
+                <h4>Empowering the Nation</h4>
+                <p>Uplifting communities through practical skills training.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <p><i class="fas fa-phone"></i> 011 123 4567</p>
+                <p><i class="fas fa-envelope"></i> info@empoweringthenation.co.za</p>
+            </div>
+            <div class="footer-col">
+                <h4>Discount Policy</h4>
+                <p>2 courses: 5% | 3 courses: 10% | 4+ courses: 15%</p>
+                <p>VAT 15% applies after discount</p>
             </div>
         </div>
-    </section>
-</main>
-<footer>
-    <div class="container footer-content">
-        <div class="footer-col">
-            <h4>Empowering the Nation</h4>
-            <p>Uplifting communities through practical skills training since 2022.</p>
+        <div class="copyright">
+            <p>&copy; 2026 Empowering the Nation. All rights reserved. | Ubuntu: I am because we are</p>
         </div>
-        <div class="footer-col">
-            <h4>Contact</h4>
-            <p><i class="fas fa-phone"></i> 011 123 4567</p>
-            <p><i class="fas fa-envelope"></i> info@empoweringthenation.co.za</p>
-        </div>
-        <div class="footer-col">
-            <h4>Venues</h4>
-            <p>📍 Soweto Campus</p>
-            <p>📍 Sandton Campus</p>
-            <p>📍 Alexandra Campus</p>
-        </div>
-    </div>
-    <div class="copyright">
-        <p>&copy; 2026 Empowering the Nation. All rights reserved. | I am because we are.</p>
     </div>
 </footer>
-<script src="js/calculate-fees/main.js" defer></script>
+
+<script>
+    // mobile menu toggle
+    const mobileBtn = document.getElementById('mobileMenuBtn');
+    const navLinksMenu = document.getElementById('navLinks');
+    if (mobileBtn) {
+        mobileBtn.addEventListener('click', () => {
+            navLinksMenu.classList.toggle('show');
+        });
+    }
+
+    // function to get discount percentage based on number of courses
+    // 1 course = 0%, 2 courses = 5%, 3 courses = 10%, 4+ = 15%
+    function getDiscountPercent(courseCount) {
+        if (courseCount === 2) return 5;
+        if (courseCount === 3) return 10;
+        if (courseCount >= 4) return 15;
+        return 0;
+    }
+
+    // main calculation function
+    function calculateTotal() {
+        // get all checkboxes
+        const checkboxes = document.querySelectorAll('.course-checkbox input');
+        let subtotal = 0;
+        let selectedCourses = [];
+        
+        // loop through and add up fees for checked boxes
+        checkboxes.forEach(cb => {
+            if (cb.checked) {
+                const fee = parseInt(cb.getAttribute('data-fee'));
+                subtotal += fee;
+                selectedCourses.push(cb.value);
+            }
+        });
+        
+        const courseCount = selectedCourses.length;
+        
+        // if no courses selected, return null
+        if (courseCount === 0) {
+            return null;
+        }
+        
+        // calculate discount and VAT
+        const discountPercent = getDiscountPercent(courseCount);
+        const discountAmount = (subtotal * discountPercent) / 100;
+        const afterDiscount = subtotal - discountAmount;
+        const vat = afterDiscount * 0.15;
+        const total = afterDiscount + vat;
+        
+        return {
+            subtotal: subtotal,
+            discountPercent: discountPercent,
+            discountAmount: discountAmount,
+            afterDiscount: afterDiscount,
+            vat: vat,
+            total: total,
+            courseCount: courseCount,
+            selectedCourses: selectedCourses
+        };
+    }
+
+    // display results on the page
+    function displayResults(calc) {
+        const resultsDiv = document.getElementById('results');
+        const detailsDiv = document.getElementById('calculationDetails');
+        
+        if (!calc) {
+            resultsDiv.classList.remove('show');
+            document.getElementById('courseError').classList.add('show');
+            return;
+        }
+        
+        document.getElementById('courseError').classList.remove('show');
+        
+        let discountText = calc.discountPercent > 0 ? calc.discountPercent + '% Discount' : 'No discount';
+        
+        detailsDiv.innerHTML = `
+            <div class="calc-row">
+                <span>Subtotal:</span>
+                <strong>R${calc.subtotal.toFixed(2)}</strong>
+            </div>
+            <div class="calc-row">
+                <span>Discount (${discountText}):</span>
+                <strong style="color: var(--forest);">- R${calc.discountAmount.toFixed(2)}</strong>
+            </div>
+            <div class="calc-row">
+                <span>Subtotal after discount:</span>
+                <strong>R${calc.afterDiscount.toFixed(2)}</strong>
+            </div>
+            <div class="calc-row">
+                <span>VAT (15%):</span>
+                <strong>+ R${calc.vat.toFixed(2)}</strong>
+            </div>
+            <div class="calc-row total">
+                <span><i class="fas fa-credit-card"></i> Total Quoted Fee:</span>
+                <strong style="font-size: 1.3rem; color: var(--forest);">R${calc.total.toFixed(2)}</strong>
+            </div>
+        `;
+        
+        resultsDiv.classList.add('show');
+    }
+
+    // validate all form fields
+    function validateForm() {
+        let isValid = true;
+        
+        // name validation - cannot be empty
+        const name = document.getElementById('fullName').value.trim();
+        if (name.length < 2) {
+            document.getElementById('nameError').classList.add('show');
+            document.getElementById('fullName').classList.add('error');
+            isValid = false;
+        } else {
+            document.getElementById('nameError').classList.remove('show');
+            document.getElementById('fullName').classList.remove('error');
+        }
+        
+        // phone validation - must start with 0 and have 10 digits
+        const phone = document.getElementById('phone').value.trim();
+        const phoneRegex = /^[0][0-9]{9}$/;
+        if (!phoneRegex.test(phone)) {
+            document.getElementById('phoneError').classList.add('show');
+            document.getElementById('phone').classList.add('error');
+            isValid = false;
+        } else {
+            document.getElementById('phoneError').classList.remove('show');
+            document.getElementById('phone').classList.remove('error');
+        }
+        
+        // email validation - must have @ and a dot
+        const email = document.getElementById('email').value.trim();
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            document.getElementById('emailError').classList.add('show');
+            document.getElementById('email').classList.add('error');
+            isValid = false;
+        } else {
+            document.getElementById('emailError').classList.remove('show');
+            document.getElementById('email').classList.remove('error');
+        }
+        
+        // course validation - at least one selected
+        const anyChecked = document.querySelectorAll('.course-checkbox input:checked').length > 0;
+        if (!anyChecked) {
+            document.getElementById('courseError').classList.add('show');
+            isValid = false;
+        } else {
+            document.getElementById('courseError').classList.remove('show');
+        }
+        
+        return isValid;
+    }
+
+    // when calculate button is clicked
+    document.getElementById('calculateBtn').addEventListener('click', () => {
+        const calc = calculateTotal();
+        displayResults(calc);
+    });
+    
+    // auto calculate when checkboxes change
+    document.querySelectorAll('.course-checkbox input').forEach(cb => {
+        cb.addEventListener('change', () => {
+            const calc = calculateTotal();
+            if (calc) {
+                displayResults(calc);
+            } else {
+                document.getElementById('results').classList.remove('show');
+            }
+        });
+    });
+    
+    // when form is submitted
+    document.getElementById('quoteForm').addEventListener('submit', (e) => {
+        e.preventDefault(); // stop page from refreshing
+        
+        const calc = calculateTotal();
+        displayResults(calc);
+        
+        if (!validateForm() || !calc) {
+            return;
+        }
+        
+        // store enquiry in localStorage (array format for consultant)
+        const enquiry = {
+            name: document.getElementById('fullName').value.trim(),
+            phone: document.getElementById('phone').value.trim(),
+            email: document.getElementById('email').value.trim(),
+            courses: calc.selectedCourses,
+            total: calc.total,
+            timestamp: new Date().toISOString()
+        };
+        
+        let enquiries = JSON.parse(localStorage.getItem('courseEnquiries') || '[]');
+        enquiries.push(enquiry);
+        localStorage.setItem('courseEnquiries', enquiries);
+        
+        // show success message
+        const successDiv = document.getElementById('successMsg');
+        successDiv.classList.add('show');
+        successDiv.scrollIntoView({ behavior: 'smooth' });
+        
+        // hide after 5 seconds
+        setTimeout(() => {
+            successDiv.classList.remove('show');
+        }, 5000);
+    });
+    
+    // remove error when user types in name field
+    document.getElementById('fullName').addEventListener('input', () => {
+        if (document.getElementById('fullName').value.trim().length >= 2) {
+            document.getElementById('nameError').classList.remove('show');
+            document.getElementById('fullName').classList.remove('error');
+        }
+    });
+    
+    // remove error when user types valid phone
+    document.getElementById('phone').addEventListener('input', () => {
+        const phoneRegex = /^[0][0-9]{9}$/;
+        if (phoneRegex.test(document.getElementById('phone').value.trim())) {
+            document.getElementById('phoneError').classList.remove('show');
+            document.getElementById('phone').classList.remove('error');
+        }
+    });
+    
+    // remove error when user types valid email
+    document.getElementById('email').addEventListener('input', () => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (emailRegex.test(document.getElementById('email').value.trim())) {
+            document.getElementById('emailError').classList.remove('show');
+            document.getElementById('email').classList.remove('error');
+        }
+    });
+</script>
+
 </body>
 </html>

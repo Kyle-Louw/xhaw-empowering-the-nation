@@ -2,18 +2,424 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Empowering the Nation | Contact</title>
-    <meta name="description" content="Contact Empowering the Nation for training enquiries, schedules, and course registration in Johannesburg.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Contact Us | Empowering the Nation</title>
+    
+    <meta name="description" content="Contact Empowering the Nation in Johannesburg. Three campuses in Soweto, Sandton and Alexandra. Phone, email and interactive maps.">
+    
+    <!-- google fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- font awesome icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="css/contact/styles.css">
+    
+    <!-- leaflet for interactive maps (free and works well) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <style>
+        /* reset everything */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* body background - soft cream like homepage */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #FFF8E7;
+            color: #333333;
+            line-height: 1.5;
+        }
+
+        /* brand colours */
+        :root {
+            --terracotta: #E2725B;
+            --terracotta-dark: #C95C4A;
+            --forest: #228B22;
+            --forest-dark: #1A6B1A;
+            --golden: #DAA520;
+            --cream: #FFF8E7;
+            --charcoal: #333333;
+            --white: #FFFFFF;
+            --shadow-sm: 0 4px 12px rgba(0,0,0,0.05);
+            --shadow-md: 0 8px 28px rgba(0,0,0,0.12);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* header same as homepage */
+        header {
+            background: var(--cream);
+            border-bottom: 3px solid var(--terracotta);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            background-color: rgba(255, 248, 231, 0.98);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 24px;
+            max-width: 1400px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-img {
+            height: 70px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .logo-text h1 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--terracotta);
+        }
+
+        .logo-text p {
+            font-size: 0.7rem;
+            color: var(--forest);
+            font-weight: 600;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            font-weight: 600;
+            color: var(--charcoal);
+            transition: all 0.3s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--forest);
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            display: block;
+            width: 100%;
+            height: 3px;
+            background: var(--forest);
+            margin-top: 8px;
+            border-radius: 2px;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            font-size: 28px;
+            color: var(--terracotta);
+            cursor: pointer;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: var(--charcoal);
+            font-weight: 500;
+            margin: 24px 0 16px;
+        }
+
+        .back-button:hover {
+            color: var(--terracotta);
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            color: var(--terracotta);
+            font-weight: 800;
+        }
+
+        .page-header h1:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--golden), var(--terracotta));
+            margin: 16px auto 0;
+            border-radius: 4px;
+        }
+
+        /* dropdown menu section - required by project */
+        .dropdown-section {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 24px;
+            margin-bottom: 40px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(226,114,91,0.2);
+        }
+
+        .dropdown-section label {
+            font-weight: 600;
+            color: var(--charcoal);
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .venue-dropdown {
+            width: 100%;
+            padding: 14px 18px;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            border: 2px solid var(--terracotta);
+            border-radius: 12px;
+            background: var(--cream);
+            cursor: pointer;
+        }
+
+        /* filter buttons to switch campuses */
+        .venue-filter {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 12px 28px;
+            font-size: 1rem;
+            font-weight: 600;
+            background: var(--white);
+            border: 2px solid var(--terracotta);
+            border-radius: 50px;
+            color: var(--terracotta);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--terracotta);
+            color: var(--white);
+        }
+
+        /* campus card */
+        .campus-card {
+            display: none;
+            background: var(--white);
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 40px;
+            border: 1px solid rgba(226,114,91,0.2);
+        }
+
+        .campus-card.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .campus-header {
+            background: linear-gradient(135deg, var(--terracotta), var(--golden));
+            padding: 28px;
+            color: var(--white);
+        }
+
+        .campus-header h2 {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+
+        /* two column layout for map and info */
+        .campus-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+        }
+
+        .map-box {
+            height: 400px;
+            background: #ddd;
+        }
+
+        .map-box .map {
+            height: 100%;
+            width: 100%;
+        }
+
+        .info-box {
+            padding: 28px;
+            background: var(--cream);
+        }
+
+        .info-box h4 {
+            color: var(--terracotta);
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-box p {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-box i {
+            color: var(--golden);
+            width: 24px;
+        }
+
+        .hours-box {
+            background: var(--white);
+            padding: 14px;
+            border-radius: 16px;
+            margin: 16px 0;
+        }
+
+        .directions-btn {
+            display: inline-block;
+            background: var(--forest);
+            color: var(--white);
+            padding: 10px 22px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 16px;
+        }
+
+        /* contact info bar */
+        .contact-bar {
+            background: linear-gradient(135deg, var(--forest), var(--forest-dark));
+            border-radius: 28px;
+            padding: 40px;
+            color: var(--white);
+            margin-bottom: 48px;
+            text-align: center;
+        }
+
+        .contact-bar h3 {
+            font-size: 1.8rem;
+            margin-bottom: 24px;
+        }
+
+        .contact-row {
+            display: flex;
+            justify-content: center;
+            gap: 48px;
+            flex-wrap: wrap;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.1rem;
+        }
+
+        .contact-item i {
+            font-size: 1.6rem;
+            color: var(--golden);
+        }
+
+        .contact-item a {
+            color: var(--white);
+            text-decoration: none;
+        }
+
+        /* footer */
+        footer {
+            background: var(--charcoal);
+            color: #ccc;
+            padding: 50px 0 25px;
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+
+        .footer-col h4 {
+            color: var(--golden);
+            margin-bottom: 18px;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 35px;
+            border-top: 1px solid #444;
+            margin-top: 35px;
+        }
+
+        /* responsive for phones */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                background: var(--cream);
+                padding: 20px;
+            }
+            .nav-links.show {
+                display: flex;
+            }
+            .mobile-menu-btn {
+                display: block;
+            }
+            .page-header h1 {
+                font-size: 2rem;
+            }
+            .campus-layout {
+                grid-template-columns: 1fr;
+            }
+            .map-box {
+                height: 280px;
+            }
+            .logo-img {
+                height: 50px;
+            }
+        }
+    </style>
 </head>
 <body>
+
 <header>
     <div class="nav-container">
         <a href="index.html" class="logo">
-            <img src="images/index/etn logo.png" alt="Empowering the Nation Logo" class="logo-img">
+            <img src="etn logo.png" alt="Logo" class="logo-img">
             <div class="logo-text">
                 <h1>Empowering the Nation</h1>
                 <p>I AM BECAUSE WE ARE</p>
@@ -24,48 +430,268 @@
         </div>
         <ul class="nav-links" id="navLinks">
             <li><a href="index.html">Home</a></li>
-            <li><a href="six-month-courses.html">Six-Month</a></li>
-            <li><a href="six-week-courses.html">Six-Week</a></li>
+            <li><a href="index.html#six-month">Six-Month</a></li>
+            <li><a href="index.html#six-week">Six-Week</a></li>
             <li><a href="calculate-fees.html">Calculate Fees</a></li>
             <li><a href="contact.html" class="active">Contact</a></li>
         </ul>
     </div>
 </header>
+
 <main>
-    <section class="hero" style="padding: 80px 0;">
-        <div class="container">
-            <h1>Contact Empowering the Nation</h1>
-            <p>Have questions about our courses, fees, or registration? Reach out and our team will get back to you.</p>
-            <div>
-                <p><strong>Phone:</strong> 011 123 4567</p>
-                <p><strong>Email:</strong> info@empoweringthenation.co.za</p>
-                <p><strong>Locations:</strong> Soweto Campus, Sandton Campus, Alexandra Campus</p>
+    <div class="container">
+        <a href="index.html" class="back-button">
+            <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
+
+        <div class="page-header">
+            <h1>Contact Us</h1>
+            <p>Three campuses across Johannesburg. Find the one closest to you.</p>
+        </div>
+
+        <!-- dropdown menu - required by project spec -->
+        <div class="dropdown-section">
+            <label><i class="fas fa-map-marker-alt" style="color: var(--terracotta);"></i> Select a campus from the dropdown:</label>
+            <select id="campusDropdown" class="venue-dropdown">
+                <option value="soweto">🏫 Soweto Campus - 2387 Mkhize Street, Orlando West</option>
+                <option value="sandton">🏢 Sandton Campus - 156 West Street, Sandton Central</option>
+                <option value="alexandra">🏘️ Alexandra Campus - 45 3rd Avenue, Wynberg</option>
+            </select>
+        </div>
+
+        <!-- filter buttons to switch campuses -->
+        <div class="venue-filter">
+            <button class="filter-btn active" data-campus="soweto">🏫 Soweto Campus</button>
+            <button class="filter-btn" data-campus="sandton">🏢 Sandton Campus</button>
+            <button class="filter-btn" data-campus="alexandra">🏘️ Alexandra Campus</button>
+        </div>
+
+        <!-- SOWETO CAMPUS -->
+        <div id="campus-soweto" class="campus-card active">
+            <div class="campus-header">
+                <h2><i class="fas fa-tree"></i> Soweto Campus</h2>
+                <div class="address">📍 2387 Mkhize Street, Orlando West, Soweto, 1804</div>
+            </div>
+            <div class="campus-layout">
+                <div class="map-box">
+                    <div id="mapSoweto" class="map"></div>
+                </div>
+                <div class="info-box">
+                    <h4><i class="fas fa-info-circle"></i> About</h4>
+                    <p>Main campus offering Six-Month Learnerships in First Aid, Sewing, Life Skills and Landscaping.</p>
+                    <h4><i class="fas fa-clock"></i> Opening Hours</h4>
+                    <div class="hours-box">
+                        <p>Monday - Friday: 8:00 AM - 5:00 PM</p>
+                        <p>Saturday: 9:00 AM - 1:00 PM</p>
+                        <p>Sunday: Closed</p>
+                    </div>
+                    <h4><i class="fas fa-phone"></i> Contact</h4>
+                    <p><i class="fas fa-phone-alt"></i> 011 123 4567</p>
+                    <p><i class="fas fa-envelope"></i> soweto@empoweringthenation.co.za</p>
+                    <a href="https://www.google.com/maps/dir/?api=1&destination=-26.2674,27.8583" target="_blank" class="directions-btn">🚗 Get Directions</a>
+                </div>
             </div>
         </div>
-    </section>
-</main>
-<footer>
-    <div class="container footer-content">
-        <div class="footer-col">
-            <h4>Empowering the Nation</h4>
-            <p>Uplifting communities through practical skills training since 2022.</p>
+
+        <!-- SANDTON CAMPUS -->
+        <div id="campus-sandton" class="campus-card">
+            <div class="campus-header">
+                <h2><i class="fas fa-building"></i> Sandton Campus</h2>
+                <div class="address">📍 156 West Street, Sandton Central, Johannesburg, 2196</div>
+            </div>
+            <div class="campus-layout">
+                <div class="map-box">
+                    <div id="mapSandton" class="map"></div>
+                </div>
+                <div class="info-box">
+                    <h4><i class="fas fa-info-circle"></i> About</h4>
+                    <p>Business hub campus specializing in Six-Week Short Courses and corporate training.</p>
+                    <h4><i class="fas fa-clock"></i> Opening Hours</h4>
+                    <div class="hours-box">
+                        <p>Monday - Friday: 7:30 AM - 6:00 PM</p>
+                        <p>Saturday: 8:00 AM - 2:00 PM</p>
+                        <p>Sunday: Closed</p>
+                    </div>
+                    <h4><i class="fas fa-phone"></i> Contact</h4>
+                    <p><i class="fas fa-phone-alt"></i> 011 765 4321</p>
+                    <p><i class="fas fa-envelope"></i> sandton@empoweringthenation.co.za</p>
+                    <a href="https://www.google.com/maps/dir/?api=1&destination=-26.1076,28.0567" target="_blank" class="directions-btn">🚗 Get Directions</a>
+                </div>
+            </div>
         </div>
-        <div class="footer-col">
-            <h4>Contact</h4>
-            <p><i class="fas fa-phone"></i> 011 123 4567</p>
-            <p><i class="fas fa-envelope"></i> info@empoweringthenation.co.za</p>
+
+        <!-- ALEXANDRA CAMPUS -->
+        <div id="campus-alexandra" class="campus-card">
+            <div class="campus-header">
+                <h2><i class="fas fa-home"></i> Alexandra Campus</h2>
+                <div class="address">📍 45 3rd Avenue, Wynberg, Alexandra, Johannesburg, 2090</div>
+            </div>
+            <div class="campus-layout">
+                <div class="map-box">
+                    <div id="mapAlexandra" class="map"></div>
+                </div>
+                <div class="info-box">
+                    <h4><i class="fas fa-info-circle"></i> About</h4>
+                    <p>Community-focused campus serving Alexandra and surrounding areas. Flexible payment options.</p>
+                    <h4><i class="fas fa-clock"></i> Opening Hours</h4>
+                    <div class="hours-box">
+                        <p>Monday - Friday: 8:00 AM - 4:30 PM</p>
+                        <p>Saturday: 9:00 AM - 12:00 PM</p>
+                        <p>Sunday: Closed</p>
+                    </div>
+                    <h4><i class="fas fa-phone"></i> Contact</h4>
+                    <p><i class="fas fa-phone-alt"></i> 011 456 7890</p>
+                    <p><i class="fas fa-envelope"></i> alexandra@empoweringthenation.co.za</p>
+                    <a href="https://www.google.com/maps/dir/?api=1&destination=-26.1031,28.0921" target="_blank" class="directions-btn">🚗 Get Directions</a>
+                </div>
+            </div>
         </div>
-        <div class="footer-col">
-            <h4>Venues</h4>
-            <p>📍 Soweto Campus</p>
-            <p>📍 Sandton Campus</p>
-            <p>📍 Alexandra Campus</p>
+
+        <!-- main contact info bar -->
+        <div class="contact-bar">
+            <h3><i class="fas fa-headset"></i> Get in Touch</h3>
+            <div class="contact-row">
+                <div class="contact-item">
+                    <i class="fas fa-phone-alt"></i>
+                    <a href="tel:0111234567">011 123 4567</a>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <a href="mailto:info@empoweringthenation.co.za">info@empoweringthenation.co.za</a>
+                </div>
+                <div class="contact-item">
+                    <i class="fab fa-whatsapp"></i>
+                    <a href="https://wa.me/27111234567">071 234 5678 (WhatsApp)</a>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="copyright">
-        <p>&copy; 2026 Empowering the Nation. All rights reserved. | I am because we are.</p>
+</main>
+
+<footer>
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-col">
+                <h4>Empowering the Nation</h4>
+                <p>Uplifting communities through practical skills training.</p>
+                <p><i class="fas fa-heart"></i> Ubuntu: I am because we are</p>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <p><i class="fas fa-phone"></i> 011 123 4567</p>
+                <p><i class="fas fa-envelope"></i> info@empoweringthenation.co.za</p>
+            </div>
+            <div class="footer-col">
+                <h4>Our Campuses</h4>
+                <p>📍 Soweto - Orlando West</p>
+                <p>📍 Sandton - Central</p>
+                <p>📍 Alexandra - Wynberg</p>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2026 Empowering the Nation. All rights reserved. | Ubuntu: I am because we are</p>
+        </div>
     </div>
 </footer>
-<script src="js/contact/main.js" defer></script>
+
+<script>
+    // mobile menu toggle
+    const mobileBtn = document.getElementById('mobileMenuBtn');
+    const navLinksMenu = document.getElementById('navLinks');
+    if (mobileBtn) {
+        mobileBtn.addEventListener('click', () => {
+            navLinksMenu.classList.toggle('show');
+        });
+    }
+
+    // dropdown functionality
+    const dropdown = document.getElementById('campusDropdown');
+    
+    // function to switch campuses
+    function switchCampus(campusId) {
+        // hide all campus cards
+        document.querySelectorAll('.campus-card').forEach(card => {
+            card.classList.remove('active');
+        });
+        // show selected campus
+        const selectedCard = document.getElementById('campus-' + campusId);
+        if (selectedCard) {
+            selectedCard.classList.add('active');
+        }
+        // update dropdown to match
+        if (dropdown) {
+            dropdown.value = campusId;
+        }
+        // update filter buttons
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.getAttribute('data-campus') === campusId) {
+                btn.classList.add('active');
+            }
+        });
+        // refresh maps after switching
+        setTimeout(() => {
+            if (campusId === 'soweto' && sowetoMap) sowetoMap.invalidateSize();
+            if (campusId === 'sandton' && sandtonMap) sandtonMap.invalidateSize();
+            if (campusId === 'alexandra' && alexandraMap) alexandraMap.invalidateSize();
+        }, 150);
+    }
+    
+    // when dropdown changes
+    if (dropdown) {
+        dropdown.addEventListener('change', function() {
+            switchCampus(this.value);
+        });
+    }
+    
+    // when filter buttons are clicked
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const campusId = btn.getAttribute('data-campus');
+            switchCampus(campusId);
+        });
+    });
+    
+    // ===== INTERACTIVE MAPS using Leaflet =====
+    // Soweto map
+    const sowetoCoords = [-26.2674, 27.8583];
+    const sowetoMap = L.map('mapSoweto').setView(sowetoCoords, 15);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+        attribution: 'Map data &copy; OpenStreetMap',
+        subdomains: 'abcd',
+        maxZoom: 19
+    }).addTo(sowetoMap);
+    L.marker(sowetoCoords).addTo(sowetoMap).bindPopup('<b>Empowering the Nation - Soweto</b>').openPopup();
+    
+    // Sandton map
+    const sandtonCoords = [-26.1076, 28.0567];
+    const sandtonMap = L.map('mapSandton').setView(sandtonCoords, 15);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+        attribution: 'Map data &copy; OpenStreetMap',
+        subdomains: 'abcd',
+        maxZoom: 19
+    }).addTo(sandtonMap);
+    L.marker(sandtonCoords).addTo(sandtonMap).bindPopup('<b>Empowering the Nation - Sandton</b>').openPopup();
+    
+    // Alexandra map
+    const alexandraCoords = [-26.1031, 28.0921];
+    const alexandraMap = L.map('mapAlexandra').setView(alexandraCoords, 15);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+        attribution: 'Map data &copy; OpenStreetMap',
+        subdomains: 'abcd',
+        maxZoom: 19
+    }).addTo(alexandraMap);
+    L.marker(alexandraCoords).addTo(alexandraMap).bindPopup('<b>Empowering the Nation - Alexandra</b>').openPopup();
+    
+    // fix map sizes when page loads
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            sowetoMap.invalidateSize();
+            sandtonMap.invalidateSize();
+            alexandraMap.invalidateSize();
+        }, 200);
+    });
+</script>
+
 </body>
 </html>
