@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -19,620 +19,7 @@
     <!-- EXTERNAL RESOURCES: Google Fonts + Font Awesome Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
-    <style>
-        /* ============================================
-           GLOBAL RESET & BASE STYLES
-        ============================================ */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #FFF8E7;      /* Soft Cream background */
-            color: #333333;                  /* Charcoal Grey text */
-            line-height: 1.5;
-            scroll-behavior: smooth;
-        }
-
-        /* ============================================
-           BRAND COLOUR PALETTE (Ubuntu inspired)
-           Terracotta = warmth | Forest Green = growth | Golden = dignity
-        ============================================ */
-        :root {
-            --terracotta: #E2725B;
-            --terracotta-light: #F5A88E;
-            --forest: #228B22;
-            --forest-dark: #1A6B1A;
-            --golden: #DAA520;
-            --golden-light: #F0C45A;
-            --cream: #FFF8E7;
-            --charcoal: #333333;
-            --white: #FFFFFF;
-            --terracotta-dark: #C95C4A;
-            /* Shadow effects for depth */
-            --shadow-sm: 0 4px 12px rgba(0,0,0,0.05);
-            --shadow-md: 0 8px 28px rgba(0,0,0,0.12);
-            --shadow-hover: 0 20px 35px rgba(0,0,0,0.15);
-            --shadow-glow: 0 0 20px rgba(218,165,32,0.3);
-        }
-
-        /* CONTAINER - Centers content on large screens */
-        .container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-
-        /* ============================================
-           HEADER & NAVIGATION (Sticky on scroll)
-        ============================================ */
-        header {
-            background: var(--cream);
-            border-bottom: 3px solid var(--terracotta);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-            background-color: rgba(255, 248, 231, 0.98);
-            box-shadow: var(--shadow-sm);
-        }
-
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 16px 24px;
-            max-width: 1400px;
-            margin: 0 auto;
-            flex-wrap: wrap;
-        }
-
-        /* LOGO SECTION - Displays brand image + name */
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-        }
-
-        .logo-img {
-            height: 70px;
-            width: auto;
-            object-fit: contain;
-            transition: transform 0.3s ease;
-        }
-
-        .logo-img:hover {
-            transform: scale(1.05);
-        }
-
-        .logo-text h1 {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--terracotta);
-            line-height: 1.2;
-            letter-spacing: -0.5px;
-        }
-
-        .logo-text p {
-            font-size: 0.7rem;
-            color: var(--forest);
-            font-weight: 600;
-            letter-spacing: 1px;
-        }
-
-        /* DESKTOP NAVIGATION LINKS */
-        .nav-links {
-            display: flex;
-            gap: 32px;
-            list-style: none;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            font-weight: 600;
-            color: var(--charcoal);
-            transition: all 0.3s;
-            position: relative;
-            font-size: 1rem;
-        }
-
-        .nav-links a:hover,
-        .nav-links a.active {
-            color: var(--forest);
-        }
-
-        /* Active page indicator (green underline) */
-        .nav-links a.active::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: var(--forest);
-            border-radius: 2px;
-        }
-
-        /* MOBILE MENU BUTTON (hidden on desktop) */
-        .mobile-menu-btn {
-            display: none;
-            font-size: 28px;
-            color: var(--terracotta);
-            cursor: pointer;
-        }
-
-        /* ============================================
-           HERO SECTION (Main banner with headline)
-        ============================================ */
-        .hero {
-            padding: 80px 0 60px;
-            background: linear-gradient(135deg, #FFF8E7 0%, #FDF0DF 100%);
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Decorative background glow effect */
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -20%;
-            width: 70%;
-            height: 150%;
-            background: radial-gradient(circle, rgba(218,165,32,0.08) 0%, transparent 70%);
-            pointer-events: none;
-        }
-
-        .hero-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            align-items: center;
-        }
-
-        /* Gradient text for main heading */
-        .hero-content h1 {
-            font-size: 4rem;
-            font-weight: 900;
-            background: linear-gradient(135deg, var(--terracotta) 0%, var(--golden) 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            line-height: 1.2;
-            margin-bottom: 24px;
-            text-shadow: var(--shadow-glow);
-            letter-spacing: -1px;
-        }
-
-        .hero-content p {
-            font-size: 1.25rem;
-            margin-bottom: 36px;
-            color: var(--charcoal);
-            line-height: 1.6;
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        /* BUTTON STYLES (Primary & Secondary) */
-        .btn-primary,
-        .btn-secondary {
-            padding: 16px 38px;
-            border-radius: 50px;
-            font-weight: 700;
-            text-decoration: none;
-            transition: all 0.3s;
-            display: inline-block;
-            font-size: 1rem;
-            letter-spacing: 0.5px;
-        }
-
-        .btn-primary {
-            background: var(--terracotta);
-            color: var(--white);
-            box-shadow: var(--shadow-md);
-        }
-
-        .btn-primary:hover {
-            background: var(--terracotta-dark);
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-hover);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--forest);
-            border: 2px solid var(--forest);
-        }
-
-        .btn-secondary:hover {
-            background: var(--forest);
-            color: var(--white);
-            transform: translateY(-4px);
-        }
-
-        /* Hero right side image */
-        .hero-image {
-            border-radius: 40px;
-            min-height: 350px;
-            background-size: cover;
-            background-position: center;
-            box-shadow: var(--shadow-md);
-            transition: transform 0.4s;
-        }
-
-        .hero-image:hover {
-            transform: scale(1.02);
-        }
-
-        /* ============================================
-           STATS SECTION (Animated counter numbers)
-        ============================================ */
-        .stats {
-            background: linear-gradient(135deg, var(--forest), var(--forest-dark));
-            color: var(--white);
-            padding: 50px 0;
-        }
-
-        .stats-grid {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            gap: 40px;
-            text-align: center;
-        }
-
-        .stat-item h3 {
-            font-size: 2.8rem;
-            font-weight: 800;
-        }
-
-        .stat-item p {
-            font-size: 1rem;
-            font-weight: 500;
-            opacity: 0.95;
-        }
-
-        /* ============================================
-           SECTION TITLES (with decorative underline)
-        ============================================ */
-        .section-title {
-            font-size: 2.8rem;
-            font-weight: 800;
-            color: var(--terracotta);
-            text-align: center;
-            margin-bottom: 20px;
-            letter-spacing: -0.5px;
-        }
-
-        .section-subtitle {
-            text-align: center;
-            color: var(--charcoal);
-            margin-bottom: 50px;
-            font-size: 1.1rem;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        /* Gold-to-Terracotta underline */
-        .section-title:after {
-            content: '';
-            display: block;
-            width: 100px;
-            height: 4px;
-            background: linear-gradient(90deg, var(--golden), var(--terracotta));
-            margin: 16px auto 0;
-            border-radius: 4px;
-        }
-
-        /* CATEGORY HEADER PILLS (Six-Month / Six-Week) */
-        .category-header {
-            background: linear-gradient(120deg, var(--terracotta) 0%, var(--golden) 100%);
-            border-radius: 60px;
-            padding: 12px 32px;
-            display: inline-block;
-            margin-bottom: 40px;
-            box-shadow: var(--shadow-md);
-        }
-
-        .category-header h3 {
-            color: var(--white);
-            font-size: 1.8rem;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            margin: 0;
-        }
-
-        .category-header h3 i {
-            margin-right: 12px;
-        }
-
-        /* ============================================
-           COURSE CARDS GRID
-        ============================================ */
-        .courses-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 35px;
-            margin-bottom: 70px;
-        }
-
-        .course-card {
-            background: var(--white);
-            border-radius: 28px;
-            overflow: hidden;
-            box-shadow: var(--shadow-sm);
-            transition: all 0.4s;
-            text-decoration: none;
-            color: inherit;
-            display: block;
-            border: 1px solid rgba(226,114,91,0.2);
-        }
-
-        .course-card:hover {
-            transform: translateY(-12px);
-            box-shadow: var(--shadow-hover);
-            border-color: var(--terracotta);
-        }
-
-        /* Course image area (background image set inline) */
-        .course-img {
-            height: 200px;
-            background-size: cover;
-            background-position: center;
-            transition: transform 0.4s;
-        }
-
-        .course-card:hover .course-img {
-            transform: scale(1.05);
-        }
-
-        .course-info {
-            padding: 24px;
-        }
-
-        .course-info h3 {
-            font-size: 1.6rem;
-            font-weight: 700;
-            color: var(--forest);
-            margin-bottom: 8px;
-        }
-
-        .course-fee {
-            font-weight: 800;
-            color: var(--terracotta);
-            font-size: 1.5rem;
-            margin: 12px 0;
-        }
-
-        .course-info p {
-            color: #555;
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
-
-        /* Course duration badge */
-        .badge {
-            display: inline-block;
-            background: var(--golden);
-            color: var(--charcoal);
-            padding: 6px 16px;
-            border-radius: 50px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            margin-top: 14px;
-        }
-
-        /* ============================================
-           TESTIMONIALS SECTION
-        ============================================ */
-        .testimonials {
-            background: linear-gradient(120deg, #FFF2E0, #FFF8E7);
-            padding: 70px 0;
-            border-radius: 50px 50px 0 0;
-            margin-top: 40px;
-        }
-
-        .testimonial-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 35px;
-        }
-
-        .testimonial-card {
-            background: var(--white);
-            padding: 32px;
-            border-radius: 32px;
-            box-shadow: var(--shadow-sm);
-            transition: 0.3s;
-            border-bottom: 4px solid var(--golden);
-        }
-
-        .testimonial-card:hover {
-            transform: translateY(-6px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .quote-icon {
-            font-size: 2.5rem;
-            color: var(--golden);
-            opacity: 0.6;
-            margin-bottom: 16px;
-        }
-
-        .testimonial-text {
-            font-style: italic;
-            margin: 16px 0;
-            line-height: 1.7;
-            font-size: 1rem;
-        }
-
-        .testimonial-author {
-            font-weight: 800;
-            color: var(--forest);
-            margin-top: 16px;
-        }
-
-        /* ============================================
-           CALL TO ACTION (CTA) SECTION
-        ============================================ */
-        .cta {
-            text-align: center;
-            padding: 70px 30px;
-            background: linear-gradient(135deg, var(--terracotta), var(--terracotta-dark));
-            color: var(--white);
-            border-radius: 50px;
-            margin: 60px auto;
-            box-shadow: var(--shadow-md);
-        }
-
-        .cta h2 {
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin-bottom: 20px;
-        }
-
-        .cta .btn-primary {
-            background: var(--white);
-            color: var(--terracotta);
-            margin-top: 20px;
-            display: inline-block;
-        }
-
-        .cta .btn-primary:hover {
-            background: var(--golden);
-            color: var(--charcoal);
-            transform: translateY(-4px);
-        }
-
-        /* ============================================
-           FOOTER SECTION
-        ============================================ */
-        footer {
-            background: var(--charcoal);
-            color: #ccc;
-            padding: 50px 0 25px;
-        }
-
-        .footer-content {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 40px;
-        }
-
-        .footer-col h4 {
-            color: var(--golden);
-            margin-bottom: 18px;
-            font-weight: 700;
-        }
-
-        .footer-col a,
-        .footer-col p {
-            color: #ccc;
-            text-decoration: none;
-            display: block;
-            margin-bottom: 10px;
-            font-size: 0.9rem;
-        }
-
-        .footer-col a:hover {
-            color: var(--terracotta);
-        }
-
-        .copyright {
-            text-align: center;
-            padding-top: 35px;
-            border-top: 1px solid #444;
-            margin-top: 35px;
-            font-size: 0.85rem;
-        }
-
-        /* ============================================
-           ANIMATIONS
-        ============================================ */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .fade-up {
-            animation: fadeInUp 0.8s ease forwards;
-        }
-
-        /* ============================================
-           RESPONSIVE DESIGN (Mobile & Tablet)
-        ============================================ */
-        @media (max-width: 768px) {
-            .hero-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .nav-links {
-                display: none;
-                flex-direction: column;
-                width: 100%;
-                background: var(--cream);
-                padding: 20px;
-                gap: 16px;
-            }
-
-            .nav-links.show {
-                display: flex;
-            }
-
-            .mobile-menu-btn {
-                display: block;
-            }
-
-            .nav-container {
-                flex-wrap: wrap;
-            }
-
-            .section-title {
-                font-size: 2rem;
-            }
-
-            .hero-content h1 {
-                font-size: 2.5rem;
-            }
-
-            .category-header h3 {
-                font-size: 1.3rem;
-            }
-
-            .cta h2 {
-                font-size: 1.8rem;
-            }
-
-            .logo-img {
-                height: 50px;
-            }
-
-            .logo-text h1 {
-                font-size: 1rem;
-            }
-
-            .logo-text p {
-                font-size: 0.6rem;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="css/index/styles.css">
 </head>
 <body>
 
@@ -643,7 +30,7 @@
     <div class="nav-container">
         <!-- Brand Logo & Name -->
         <a href="#" class="logo">
-            <img src="etn logo.png" alt="Empowering the Nation Logo" class="logo-img">
+            <img src="images/index/etn logo.png" alt="Empowering the Nation Logo" class="logo-img">
             <div class="logo-text">
                 <h1>Empowering the Nation</h1>
                 <p>I AM BECAUSE WE ARE</p>
@@ -658,9 +45,9 @@
         <!-- Main Navigation Links -->
         <ul class="nav-links" id="navLinks">
             <li><a href="#" class="active">Home</a></li>
-            <li><a href="#six-month">Six-Month</a></li>
-            <li><a href="#six-week">Six-Week</a></li>
-            <li><a href="calculate.html">Calculate Fees</a></li>
+            <li><a href="six-month-courses.html">Six-Month</a></li>
+            <li><a href="six-week-courses.html">Six-Week</a></li>
+            <li><a href="calculate-fees.html">Calculate Fees</a></li>
             <li><a href="contact.html">Contact</a></li>
         </ul>
     </div>
@@ -677,12 +64,12 @@
                 <h1>Empower Yourself.<br>Transform Your Future.</h1>
                 <p>Empowering the Nation provides high-quality, accessible vocational training that transforms lives. Equip yourself with practical skills for domestic and garden work, fostering independence and economic growth within our communities.</p>
                 <div class="hero-buttons">
-                    <a href="#six-month" class="btn-primary">Explore Six-Month Courses →</a>
-                    <a href="#six-week" class="btn-secondary">View Short Courses →</a>
+                    <a href="six-month-courses.html" class="btn-primary">Explore Six-Month Courses →</a>
+                    <a href="six-week-courses.html" class="btn-secondary">View Short Courses →</a>
                 </div>
             </div>
             <!-- Right side: Hero image -->
-            <div class="hero-image fade-up" style="background-image: url('hero-image.jpg');"></div>
+            <div class="hero-image fade-up" style="background-image: url('images/index/hero-image.jpg');"></div>
         </div>
     </section>
 
@@ -725,7 +112,7 @@
             <div class="courses-grid">
                 <!-- Course 1: First Aid -->
                 <a href="course-firstaid.html" class="course-card">
-                    <div class="course-img" style="background-image: url('firstaid.jpg');"></div>
+                    <div class="course-img" style="background-image: url('images/index/firstaid.jpg');"></div>
                     <div class="course-info">
                         <h3>First Aid</h3>
                         <div class="course-fee">R1,500</div>
@@ -736,7 +123,7 @@
 
                 <!-- Course 2: Sewing -->
                 <a href="course-sewing.html" class="course-card">
-                    <div class="course-img" style="background-image: url('sewing.jpg');"></div>
+                    <div class="course-img" style="background-image: url('images/index/sewing.jpg');"></div>
                     <div class="course-info">
                         <h3>Sewing</h3>
                         <div class="course-fee">R1,500</div>
@@ -747,7 +134,7 @@
 
                 <!-- Course 3: Landscaping -->
                 <a href="course-landscaping.html" class="course-card">
-                    <div class="course-img" style="background-image: url('landscaping.jpg');"></div>
+                    <div class="course-img" style="background-image: url('images/index/landscaping.jpg');"></div>
                     <div class="course-info">
                         <h3>Landscaping</h3>
                         <div class="course-fee">R1,500</div>
@@ -758,7 +145,7 @@
 
                 <!-- Course 4: Life Skills -->
                 <a href="course-lifeskills.html" class="course-card">
-                    <div class="course-img" style="background-image: url('lifeskills.jpg');"></div>
+                    <div class="course-img" style="background-image: url('images/index/lifeskills.jpg');"></div>
                     <div class="course-info">
                         <h3>Life Skills</h3>
                         <div class="course-fee">R1,500</div>
@@ -777,13 +164,13 @@
                 <div class="category-header">
                     <h3><i class="fas fa-calendar-week"></i> Six-Week Short Courses</h3>
                 </div>
-                <p class="section-subtitle">Quick, focused upskilling for immediate opportunities — start your journey today</p>
+                <p class="section-subtitle">Quick, focused upskilling for immediate opportunities â€” start your journey today</p>
             </div>
 
             <div class="courses-grid">
                 <!-- Course 5: Child Minding -->
                 <a href="course-childminding.html" class="course-card">
-                    <div class="course-img" style="background-image: url('childminding.jpg');"></div>
+                    <div class="course-img" style="background-image: url('images/index/childminding.jpg');"></div>
                     <div class="course-info">
                         <h3>Child Minding</h3>
                         <div class="course-fee">R750</div>
@@ -794,7 +181,7 @@
 
                 <!-- Course 6: Cooking -->
                 <a href="course-cooking.html" class="course-card">
-                    <div class="course-img" style="background-image: url('cooking.jpg');"></div>
+                    <div class="course-img" style="background-image: url('images/index/cooking.jpg');"></div>
                     <div class="course-info">
                         <h3>Cooking</h3>
                         <div class="course-fee">R750</div>
@@ -805,7 +192,7 @@
 
                 <!-- Course 7: Garden Maintenance -->
                 <a href="course-garden.html" class="course-card">
-                    <div class="course-img" style="background-image: url('garden.jpg');"></div>
+                    <div class="course-img" style="background-image: url('images/index/garden.jpg');"></div>
                     <div class="course-info">
                         <h3>Garden Maintenance</h3>
                         <div class="course-fee">R750</div>
@@ -857,7 +244,7 @@
         <div class="cta">
             <h2>Ready to Begin Your Journey?</h2>
             <p style="font-size: 1.1rem; max-width: 600px; margin: 0 auto;">Calculate your total fees with automatic discounts (up to 15% + VAT) and take the first step today.</p>
-            <a href="calculate.html" class="btn-primary">Calculate Fees Now →</a>
+            <a href="calculate-fees.html" class="btn-primary">Calculate Fees Now →</a>
         </div>
     </div>
 </main>
@@ -885,9 +272,9 @@
             <!-- Venues Column -->
             <div class="footer-col">
                 <h4>Venues</h4>
-                <p>📍 Soweto Campus</p>
-                <p>📍 Sandton Campus</p>
-                <p>📍 Alexandra Campus</p>
+                <p>ðŸ“ Soweto Campus</p>
+                <p>ðŸ“ Sandton Campus</p>
+                <p>ðŸ“ Alexandra Campus</p>
             </div>
         </div>
 
@@ -901,75 +288,7 @@
 <!-- ============================================
      JAVASCRIPT: Mobile Menu + Smooth Scroll + Counters
   ============================================ -->
-<script>
-    // MOBILE MENU TOGGLE
-    const mobileBtn = document.getElementById('mobileMenuBtn');
-    const navLinks = document.getElementById('navLinks');
-    
-    if (mobileBtn) {
-        mobileBtn.addEventListener('click', () => {
-            navLinks.classList.toggle('show');
-        });
-    }
-
-    // SMOOTH SCROLLING for anchor links (e.g., #six-month, #six-week)
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            const targetId = this.getAttribute('href');
-            if (targetId === "#") return;
-            
-            const target = document.querySelector(targetId);
-            if (target) {
-                e.preventDefault();
-                target.scrollIntoView({ behavior: 'smooth' });
-                
-                // Close mobile menu after clicking (if open)
-                if (navLinks.classList.contains('show')) {
-                    navLinks.classList.remove('show');
-                }
-            }
-        });
-    });
-
-    // ANIMATED COUNTERS (triggered when stats section comes into view)
-    const counters = document.querySelectorAll('.counter');
-    let counted = false;
-    
-    const startCounting = () => {
-        if (counted) return;
-        counted = true;
-        
-        counters.forEach(counter => {
-            const updateCount = () => {
-                const target = parseInt(counter.getAttribute('data-target'));
-                const current = parseInt(counter.innerText);
-                const increment = Math.ceil(target / 25);
-                
-                if (current < target) {
-                    counter.innerText = current + increment;
-                    setTimeout(updateCount, 35);
-                } else {
-                    // Add percentage sign only for the employment rate stat
-                    counter.innerText = target + (target === 85 ? '%' : '');
-                }
-            };
-            updateCount();
-        });
-    };
-
-    // Intersection Observer to detect when stats section is visible
-    const statsSection = document.querySelector('.stats');
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                startCounting();
-                observer.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.4 });
-    
-    if (statsSection) observer.observe(statsSection);
-</script>
+<script src="js/index/main.js" defer></script>
 
 </body>
 </html>
