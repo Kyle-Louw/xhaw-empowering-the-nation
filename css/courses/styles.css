@@ -1,0 +1,484 @@
+/* ============================================
+   GLOBAL RESET & BASE STYLES
+============================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #FFF8E7;
+    color: #333333;
+    line-height: 1.5;
+    scroll-behavior: smooth;
+}
+
+:root {
+    --terracotta: #E2725B;
+    --terracotta-light: #F5A88E;
+    --forest: #228B22;
+    --forest-dark: #1A6B1A;
+    --golden: #DAA520;
+    --golden-light: #F0C45A;
+    --cream: #FFF8E7;
+    --charcoal: #333333;
+    --white: #FFFFFF;
+    --terracotta-dark: #C95C4A;
+    --shadow-sm: 0 4px 12px rgba(0,0,0,0.05);
+    --shadow-md: 0 8px 28px rgba(0,0,0,0.12);
+    --shadow-hover: 0 20px 35px rgba(0,0,0,0.15);
+}
+
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+/* ============================================
+   HEADER & NAVIGATION (Sticky on scroll)
+============================================ */
+header {
+    background: var(--cream);
+    border-bottom: 3px solid var(--terracotta);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    background-color: rgba(255, 248, 231, 0.98);
+    box-shadow: var(--shadow-sm);
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+}
+
+/* LOGO SECTION - Displays brand image + name */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+}
+
+.logo-img {
+    height: 70px;
+    width: auto;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.logo-img:hover {
+    transform: scale(1.05);
+}
+
+.logo-text h1 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--terracotta);
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+}
+
+.logo-text p {
+    font-size: 0.7rem;
+    color: var(--forest);
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+/* DESKTOP NAVIGATION LINKS */
+.nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+}
+
+.nav-links a {
+    text-decoration: none;
+    font-weight: 600;
+    color: var(--charcoal);
+    transition: all 0.3s;
+    position: relative;
+    font-size: 1rem;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: var(--forest);
+}
+
+/* Active page indicator (green underline) */
+.nav-links a.active::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--forest);
+    border-radius: 2px;
+}
+
+/* MOBILE MENU BUTTON (hidden on desktop) */
+.mobile-menu-btn {
+    display: none;
+    font-size: 28px;
+    color: var(--terracotta);
+    cursor: pointer;
+}
+
+
+/* ============================================
+   FOOTER
+============================================ */
+footer {
+    background: var(--charcoal);
+    color: #ccc;
+    padding: 50px 0 25px;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 40px;
+}
+
+.footer-col h4 {
+    color: var(--golden);
+    margin-bottom: 18px;
+    font-weight: 700;
+}
+
+.footer-col p {
+    color: #ccc;
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+}
+
+.copyright {
+    text-align: center;
+    padding-top: 35px;
+    border-top: 1px solid #444;
+    margin-top: 35px;
+    font-size: 0.85rem;
+}
+
+/* ============================================
+   BUTTONS
+============================================ */
+.btn-primary {
+    background: var(--terracotta);
+    color: var(--white);
+    padding: 14px 32px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 700;
+    display: inline-block;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.btn-primary:hover {
+    background: var(--terracotta-dark);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+}
+
+/* ============================================
+   COURSE DETAIL PAGE STYLES
+============================================ */
+.course-hero {
+    background: linear-gradient(135deg, var(--terracotta), var(--terracotta-dark));
+    color: var(--white);
+    padding: 60px 0;
+}
+
+.back-link {
+    display: inline-block;
+    color: var(--white);
+    text-decoration: none;
+    margin-bottom: 30px;
+    font-weight: 600;
+    transition: opacity 0.3s ease;
+}
+
+.back-link:hover {
+    opacity: 0.8;
+}
+
+.course-hero-content h1 {
+    font-size: 3.5rem;
+    font-weight: 900;
+    margin-bottom: 10px;
+}
+
+.course-subtitle {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    opacity: 0.95;
+}
+
+.course-meta {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    font-weight: 600;
+}
+
+.course-meta span {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.course-content {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 40px;
+    padding: 60px 0;
+}
+
+.course-main {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.course-image {
+    width: 100%;
+    height: 350px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 20px;
+    box-shadow: var(--shadow-md);
+}
+
+.course-section {
+    padding: 0;
+}
+
+.course-section h2 {
+    font-size: 1.8rem;
+    color: var(--forest);
+    margin-bottom: 20px;
+    font-weight: 800;
+}
+
+.course-section p {
+    color: #555;
+    font-size: 1rem;
+    line-height: 1.8;
+    margin-bottom: 15px;
+}
+
+.course-list {
+    list-style-position: inside;
+    list-style-type: none;
+    padding: 0;
+}
+
+.course-list li {
+    color: #555;
+    padding: 10px 0;
+    padding-left: 25px;
+    position: relative;
+    line-height: 1.6;
+}
+
+.course-list li:before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--terracotta);
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.course-details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px 0;
+}
+
+.detail-item {
+    background: var(--white);
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    border-left: 4px solid var(--golden);
+}
+
+.detail-item h3 {
+    color: var(--forest);
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.detail-item p {
+    color: #555;
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+.cta-section {
+    background: linear-gradient(120deg, var(--terracotta-light), var(--golden-light));
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+}
+
+.cta-section h2 {
+    color: var(--charcoal);
+}
+
+.cta-section p {
+    color: var(--charcoal);
+    margin-bottom: 25px;
+}
+
+.course-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.sidebar-card {
+    background: var(--white);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid #eee;
+}
+
+.sidebar-card h3 {
+    color: var(--forest);
+    margin-bottom: 20px;
+    font-weight: 800;
+    font-size: 1.3rem;
+}
+
+.summary-item {
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+    color: #555;
+}
+
+.summary-item:last-child {
+    border-bottom: none;
+}
+
+.summary-item strong {
+    color: var(--forest);
+    display: block;
+    margin-bottom: 5px;
+}
+
+.summary-item p {
+    color: #555;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.sidebar-card .btn-primary {
+    margin-top: 20px;
+    padding: 12px 16px;
+    width: 100%;
+    text-align: center;
+}
+
+/* COURSE IMAGES */
+#course-firstaid {
+    background-image: url('../../images/index/firstaid.jpg');
+}
+
+#course-sewing {
+    background-image: url('../../images/index/sewing.jpg');
+}
+
+#course-landscaping {
+    background-image: url('../../images/index/landscaping.jpg');
+}
+
+#course-lifeskills {
+    background-image: url('../../images/index/lifeskills.jpg');
+}
+
+#course-childminding {
+    background-image: url('../../images/index/childminding.jpg');
+}
+
+#course-cooking {
+    background-image: url('../../images/index/cooking.jpg');
+}
+
+#course-garden {
+    background-image: url('../../images/index/garden.jpg');
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+============================================ */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background: var(--cream);
+        padding: 20px;
+        gap: 16px;
+    }
+
+    .nav-links.show {
+        display: flex;
+    }
+
+    .mobile-menu-btn {
+        display: block;
+    }
+
+    .nav-container {
+        flex-wrap: wrap;
+    }
+
+    .logo-img {
+        height: 50px;
+    }
+
+    .logo-text h1 {
+        font-size: 1rem;
+    }
+
+    .logo-text p {
+        font-size: 0.6rem;
+    }
+
+    .course-hero-content h1 {
+        font-size: 2rem;
+    }
+
+    .course-content {
+        grid-template-columns: 1fr;
+        padding: 20px;
+    }
+
+    .course-sidebar {
+        order: -1;
+    }
+
+    .course-image {
+        height: 250px;
+    }
+}
